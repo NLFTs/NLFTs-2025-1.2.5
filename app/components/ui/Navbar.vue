@@ -1,134 +1,128 @@
 <template>
-  <div class="fixed top-0 left-0 w-full z-[500] px-10 pt-8 transition-all duration-500">
-    <nav 
-      class="max-w-7xl mx-auto flex items-center justify-between relative"
-      @mouseleave="closeDropdown"
-    >
-      <NuxtLink to="/" class="group relative z-10 flex items-center">
-        <span class="text-2xl font-black tracking-tighter text-white uppercase italic">
-          NLFT<span class="text-blue-600 transition-colors group-hover:text-white">s</span>
-        </span>
+  <nav 
+    class="fixed top-0 left-0 w-full z-[100] transition-all duration-500"
+    :class="{ 'bg-[#050505] border-b border-white/10 py-4 shadow-2xl': isScrolled, 'py-8 bg-transparent': !isScrolled }"
+  >
+    <div class="container mx-auto px-6 flex justify-between items-center relative">
+      
+      <NuxtLink to="/" class="text-3xl font-black text-white tracking-tighter shrink-0 z-[110]">
+        NLFTs<span class="text-indigo-500">.</span>
       </NuxtLink>
 
-      <div class="hidden md:flex items-center gap-2 absolute left-1/2 -translate-x-1/2 z-10">
-        <div 
-          v-for="item in navLinks" 
-          :key="item.name"
-          class="relative"
-          @mouseenter="openDropdown(item.name)"
-        >
-          <button 
-            class="px-6 py-2 font-mono text-[11px] tracking-[0.25em] uppercase transition-all duration-300 relative"
-            :class="activeDropdown === item.name ? 'text-white' : 'text-slate-400 hover:text-white'"
-          >
-            {{ item.name }}
-            <div 
-              v-if="activeDropdown === item.name" 
-              class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-500 rounded-full shadow-[0_0_10px_#3b82f6]"
-            ></div>
+      <div class="hidden lg:flex items-center gap-2">
+        
+        <div v-for="(menu, index) in navigation" :key="index" class="relative group">
+          
+          <button class="flex items-center gap-2 px-6 py-3 text-sm font-bold uppercase tracking-[0.2em] text-white/50 group-hover:text-white transition-all duration-300">
+            {{ menu.name }}
+            <Icon icon="lucide:chevron-down" class="w-4 h-4 transition-transform duration-500 group-hover:rotate-180" />
           </button>
-        </div>
-      </div>
 
-      <div class="relative z-10">
-        <button 
-          class="group relative overflow-hidden px-6 py-2 border border-white/10 hover:border-blue-500 transition-colors duration-500"
-        >
-          <div class="absolute inset-0 bg-blue-600 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-          <span class="relative text-[10px] font-bold text-white uppercase tracking-[0.2em]">
-            Entry.fts
-          </span>
-        </button>
-      </div>
+          <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible translate-y-5 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] w-[800px] z-[120]">
+            
+            <div class="bg-[#0c0c0c] border border-white/10 rounded-[3rem] p-10 shadow-[0_40px_100px_-20px_rgba(0,0,0,1)] overflow-hidden relative">
+              <div class="absolute -top-20 -right-20 w-64 h-64 bg-indigo-600/10 rounded-full blur-[100px]"></div>
 
-      <Transition @enter="onEnter" @leave="onLeave">
-        <div 
-          v-if="activeDropdown" 
-          class="absolute top-12 left-0 w-full pt-6 pointer-events-auto"
-        >
-          <div class="bg-[#05070a]/95 backdrop-blur-3xl border border-white/5 shadow-[0_40px_100px_rgba(0,0,0,0.7)] overflow-hidden">
-            <div class="grid grid-cols-12 min-h-[300px]">
-              
-              <div class="col-span-4 p-10 bg-white/[0.02] border-r border-white/5 flex flex-col justify-between">
-                <div>
-                  <div class="text-blue-500 font-mono text-[9px] tracking-[0.4em] uppercase mb-3">System_Access</div>
-                  <h3 class="text-5xl font-black italic text-white uppercase leading-none">{{ activeDropdown }}</h3>
+              <div class="grid grid-cols-12 gap-10 relative z-10">
+                <div class="col-span-4 border-r border-white/5 pr-10">
+                  <div class="text-indigo-500 font-black text-[10px] uppercase tracking-[0.4em] mb-4">{{ menu.name }}</div>
+                  <h3 class="text-white text-2xl font-bold leading-tight mb-6 tracking-tight">Eksplorasi Ekosistem Digital.</h3>
+                  <div class="p-5 bg-white/[0.03] rounded-3xl border border-white/5">
+                    <p class="text-gray-500 text-[11px] leading-relaxed uppercase tracking-widest font-bold">Inovasi tanpa henti untuk hasil yang revolusioner.</p>
+                  </div>
                 </div>
-                <p class="text-slate-500 font-mono text-[9px] uppercase tracking-widest italic opacity-50">
-                  // secure_connection_established
-                </p>
-              </div>
 
-              <div class="col-span-8 p-10 grid grid-cols-2 gap-8">
-                <NuxtLink 
-                  v-for="sub in menuData[activeDropdown]" 
-                  :key="sub.title"
-                  class="group/item flex gap-5 transition-all duration-300"
-                >
-                  <div class="w-12 h-12 shrink-0 bg-blue-600/5 flex items-center justify-center border border-white/5 text-blue-500 group-hover/item:bg-blue-600 group-hover/item:text-white group-hover/item:border-blue-400 transition-all duration-500">
-                    <UIcon :name="sub.icon" class="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h4 class="text-white font-bold text-sm uppercase tracking-tight group-hover/item:text-blue-400 transition-colors">{{ sub.title }}</h4>
-                    <p class="text-slate-500 text-[11px] mt-1 leading-relaxed">{{ sub.desc }}</p>
-                  </div>
-                </NuxtLink>
+                <div class="col-span-8 grid grid-cols-2 gap-4">
+                  <NuxtLink 
+                    v-for="child in menu.children" 
+                    :key="child.title" 
+                    :to="child.path"
+                    class="group/item flex items-center gap-5 p-5 rounded-[2rem] hover:bg-indigo-600 transition-all duration-500 border border-transparent hover:border-white/10"
+                  >
+                    <div class="w-12 h-12 shrink-0 rounded-2xl bg-white/5 flex items-center justify-center group-hover/item:bg-white/20 transition-all duration-500 group-hover/item:rotate-[15deg]">
+                      <Icon :icon="child.icon" class="text-2xl text-white" />
+                    </div>
+                    <div>
+                      <h4 class="text-white font-bold group-hover/item:text-white">{{ child.title }}</h4>
+                      <p class="text-white/30 text-[9px] uppercase tracking-[0.2em] mt-1 group-hover/item:text-white/70">{{ child.desc }}</p>
+                    </div>
+                  </NuxtLink>
+                </div>
               </div>
-
             </div>
           </div>
         </div>
-      </Transition>
-    </nav>
-  </div>
+
+        <NuxtLink to="/projects" class="px-6 py-3 text-sm font-bold uppercase tracking-[0.2em] text-white/50 hover:text-white transition-all">Proyek</NuxtLink>
+      </div>
+
+      <div class="hidden lg:flex items-center gap-6 shrink-0">
+        <div 
+          @click="openSearch"
+          class="flex items-center gap-3 px-5 py-2.5 bg-white/5 border border-white/10 rounded-2xl cursor-pointer hover:border-indigo-500 transition-all group/search"
+        >
+          <Icon icon="lucide:search" class="text-lg text-white/40 group-hover/search:text-indigo-500 transition-colors" />
+          <span class="text-[10px] font-black text-white/30 tracking-[0.2em] uppercase">Search</span>
+          <kbd class="px-2 py-0.5 bg-white/10 rounded text-[9px] font-black text-white/50 border border-white/10">CTRL K</kbd>
+        </div>
+
+        <NuxtLink to="/contact" class="px-8 py-3.5 bg-white text-black text-[10px] font-black uppercase rounded-full hover:bg-indigo-600 hover:text-white transition-all duration-500 tracking-[0.2em]">
+          Mulai Proyek
+        </NuxtLink>
+      </div>
+
+    </div>
+  </nav>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { Icon } from '@iconify/vue';
 
-const activeDropdown = ref(null)
+const isScrolled = ref(false);
 
-const navLinks = [
-  { name: 'Home' },
-  { name: 'Docs' },
-  { name: 'Tim' }
-]
+const navigation = [
+  {
+    name: 'Layanan',
+    children: [
+      { title: 'Web Development', desc: 'Web Moderen', icon: 'lucide:monitor', path: '/services/web' },
+      { title: 'Mobile Apps', desc: 'Mobile Native', icon: 'lucide:smartphone', path: '/services/mobile' },
+      { title: 'React Pixel', desc: 'Template React Components dan Fragments', icon: 'logos:react', path: '/react_pixel' },
+      { title: 'Vue Pixel', desc: 'Template Vue Components dan Fragments', icon: 'logos:vue', path: '/vue_pixel' }, 
+    ]
+  },
+  {
+    name: 'Ekosistem',
+    children: [
+      { title: 'Showcase', desc: 'Hasil Karya Kami', icon: 'lucide:layout-grid', path: '/showcase' },
+      { title: 'Dokumentasi', desc: 'Standard Tech', icon: 'lucide:book-open', path: '/docs' },
+      { title: 'Karir', desc: 'Bergabunglah', icon: 'lucide:users', path: '/careers' },
+      { title: 'Support', desc: 'Pusat Bantuan', icon: 'lucide:help-circle', path: '/help' }
+    ]
+  }
+];
 
-const menuData = {
-  Home: [
-    { title: 'Overview', desc: 'Visi teknologi masa depan NLFTs.', icon: 'i-heroicons-globe-alt' },
-    { title: 'Community', desc: 'Hub kolaborasi dev Indonesia.', icon: 'i-heroicons-chat-bubble-left-right' }
-  ],
-  Docs: [
-    { title: 'C++ Module', desc: 'Optimasi engine tingkat rendah.', icon: 'i-heroicons-command-line' },
-    { title: 'Format .fts', desc: 'Struktur data eksklusif kami.', icon: 'i-heroicons-document-magnifying-glass' }
-  ],
-  Tim: [
-    { title: 'Core Devs', desc: 'Insinyur di balik sistem.', icon: 'i-heroicons-user-group' },
-    { title: 'Careers', desc: 'Bergabung dengan ekosistem kami.', icon: 'i-heroicons-briefcase' }
-  ]
-}
+const openSearch = () => {
+  console.log("Search modal aktif...");
+};
 
-const openDropdown = (name) => {
-  activeDropdown.value = name
-}
+onMounted(() => {
+  window.addEventListener('scroll', () => {
+    isScrolled.value = window.scrollY > 30;
+  });
 
-const closeDropdown = () => {
-  activeDropdown.value = null
-}
-
-const onEnter = async (el, done) => {
-  const { default: gsap } = await import('gsap')
-  gsap.fromTo(el, 
-    { opacity: 0, y: 15 }, 
-    { opacity: 1, y: 0, duration: 0.4, ease: 'power4.out', onComplete: done }
-  )
-}
-
-const onLeave = async (el, done) => {
-  const { default: gsap } = await import('gsap')
-  gsap.to(el, 
-    { opacity: 0, y: 10, duration: 0.2, ease: 'power2.in', onComplete: done }
-  )
-}
+  // Shortcut Ctrl + K
+  window.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      openSearch();
+    }
+  });
+});
 </script>
+
+<style scoped>
+/* Transisi Smooth untuk pergerakan */
+.group:hover button {
+  transform: translateY(-2px);
+}
+</style>

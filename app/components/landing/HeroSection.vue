@@ -27,9 +27,9 @@
 
           <div ref="descriptionRef" class="mt-10 max-w-xl">
             <p class="text-slate-400 text-lg md:text-xl font-light leading-relaxed border-l-4 border-blue-900 pl-6">
-              Bukan sekadar kode, kami membangun ekosistem rekayasa tingkat tinggi. 
-              Spesialisasi dalam optimasi low-level <span class="text-white font-mono">C++/C#</span> 
-              untuk performa tanpa kompromi.
+              Bukan sekadar Komunitas Biaas, kami membangun ekosistem Besar tingkat ahli. 
+              Spesialisasi dalam optimasi high-level <span class="text-white font-mono">FTs</span> 
+              untuk performa tanpa Luar Biasa
             </p>
           </div>
 
