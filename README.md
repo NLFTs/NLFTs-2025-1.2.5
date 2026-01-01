@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 # NLFTs-2025-1.2.5
 NLFTs Baru
-=======
+
 
 # Work Flow
 
@@ -15,4 +14,4 @@ NLFTs Baru
 
 - /components/ui/ -> Komponen kecil seperti Button, Card, Badge.
 
->>>>>>> a264d6b (Update version 1.5.2 #Update Home Pages)
+a264d6b (Update version 1.5.2 #Update Home Pages)
